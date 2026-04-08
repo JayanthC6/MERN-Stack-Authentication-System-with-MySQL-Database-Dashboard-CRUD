@@ -1,26 +1,28 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const path = require('path');
+const cors = require('cors'); // 1. Import CORS
 
-// 1. Force the exact absolute path to your .env file
+// Force the exact absolute path to your .env file
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-// 2. Import database connection ONLY AFTER dotenv is successfully configured
+// Import database connection ONLY AFTER dotenv is successfully configured
 const db = require('./config/db');
 
 const app = express();
 
-// 3. Middleware to parse incoming JSON requests
-app.use(express.json());
+// --- MIDDLEWARE ---
+app.use(cors()); // 2. Enable CORS so React can talk to this API
+app.use(express.json()); // Parse incoming JSON requests
 
-// 4. Import and attach your API routes
+// --- ROUTES ---
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
 
-// --- NEW: Dashboard Item Routes ---
 const itemRoutes = require('./routes/itemRoutes');
 app.use('/api/items', itemRoutes);
 
+// --- START SERVER ---
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
