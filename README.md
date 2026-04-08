@@ -40,10 +40,6 @@ A professional, production-ready full-stack application featuring a secure authe
 2.  Install dependencies:
     ```bash
     npm install express mysql2 bcryptjs jsonwebtoken dotenv cors nodemailer
-    
-http://googleusercontent.com/immersive_entry_chip/0
-http://googleusercontent.com/immersive_entry_chip/1
-http://googleusercontent.com/immersive_entry_chip/2
 
 
 **Jayanth C** * Final Year MCA Student
