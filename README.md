@@ -32,8 +32,8 @@ A full-stack web application featuring secure user authentication, role-based ac
 ## 📦 Prerequisites
 
 Before running this project, ensure you have the following installed on your machine:
-* [Node.js](https://nodejs.org/) (v16 or higher)
-* [MySQL Server](https://dev.mysql.com/downloads/installer/) & MySQL Workbench
+* Node.js (v16 or higher)
+* MySQL Server & MySQL Workbench
 
 ---
 
@@ -47,11 +47,44 @@ Follow these exact steps to set up the project on your local machine.
 
 ### 2. Backend Setup
 Open a terminal, navigate to the backend folder, and install the dependencies:
-```bash
-cd backend
 
-# Install core backend dependencies
-npm install express dotenv cors mysql2 jsonwebtoken bcrypt
+    cd backend
+    npm install express dotenv cors mysql2 jsonwebtoken bcrypt
+    npm install -D nodemon
 
-# Install development dependencies
-npm install -D nodemon
+Create a `.env` file in the root of the `backend` folder and add your specific configurations:
+
+    PORT=5000
+    DB_HOST=localhost
+    DB_USER=root
+    DB_PASSWORD=your_mysql_password
+    DB_NAME=mem_auth_db
+    JWT_SECRET=your_super_secret_jwt_key
+
+Start the backend server:
+
+    npm run dev
+
+### 3. Frontend Setup
+Open a new terminal, navigate to the frontend folder, and install the dependencies:
+
+    cd frontend
+    npm install axios react-router-dom
+    npm install -D tailwindcss @tailwindcss/vite
+
+Start the React development server:
+
+    npm run dev
+
+Open your browser and navigate to the URL provided in the terminal (usually http://localhost:5173).
+
+---
+
+## 👨‍💻 Author
+
+**Jayanth C** * Final Year MCA Student
+* [https://www.linkedin.com/in/jayanthc18/]
+* [(https://github.com/JayanthC6)]
+
+---
+*This project was built to demonstrate proficiency in full-stack architecture, relational database design, and modern REST API security practices.*
