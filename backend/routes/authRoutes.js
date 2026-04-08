@@ -1,12 +1,12 @@
-// backend/routes/authRoutes.js
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
+const { protect } = require('../middleware/auth'); // 1. Import the Bouncer
 
-// Existing register route
 router.post('/register', authController.register);
-
-// NEW login route
 router.post('/login', authController.login);
+
+// 2. NEW protected route. The request hits 'protect' first. If it passes, it goes to 'getMe'.
+router.get('/me', protect, authController.getMe); 
 
 module.exports = router;

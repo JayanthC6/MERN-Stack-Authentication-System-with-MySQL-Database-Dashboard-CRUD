@@ -17,6 +17,10 @@ app.use(express.json());
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
 
+// --- NEW: Dashboard Item Routes ---
+const itemRoutes = require('./routes/itemRoutes');
+app.use('/api/items', itemRoutes);
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

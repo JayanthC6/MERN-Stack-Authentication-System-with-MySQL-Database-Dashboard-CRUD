@@ -76,3 +76,24 @@ exports.login = async (req, res) => {
         res.status(500).json({ message: 'Server error during login' });
     }
 };
+
+// --- GET CURRENT USER FUNCTION ---
+exports.getMe = async (req, res) => {
+    try {
+        // req.user.id is automatically provided by our 'protect' middleware!
+        // We explicitly select the columns we want, making sure NOT to select the password.
+        const [users] = await db.query(
+            'SELECT id, name, email, phone, created_at FROM users WHERE id = ?', 
+            [req.user.id]
+        );
+
+        if (users.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json(users[0]);
+    } catch (error) {
+        console.error('Get Me Error:', error);
+        res.status(500).json({ message: 'Server error fetching user data' });
+    }
+};
