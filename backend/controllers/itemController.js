@@ -85,3 +85,23 @@ exports.deleteItem = async (req, res) => {
         res.status(500).json({ message: 'Server error deleting item' });
     }
 };
+
+// --- 5. GET STATS ---
+exports.getStats = async (req, res) => {
+    try {
+        // Fetch all items for this user to calculate stats
+        const [items] = await db.query('SELECT status FROM items WHERE user_id = ?', [req.user.id]);
+        
+        const stats = {
+            total: items.length,
+            active: items.filter(i => i.status === 'active').length,
+            pending: items.filter(i => i.status === 'pending').length,
+            completed: items.filter(i => i.status === 'completed').length
+        };
+        
+        res.status(200).json(stats);
+    } catch (error) {
+        console.error('Get Stats Error:', error);
+        res.status(500).json({ message: 'Server error fetching statistics' });
+    }
+};

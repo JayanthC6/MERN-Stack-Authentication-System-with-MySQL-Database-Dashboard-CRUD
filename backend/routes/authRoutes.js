@@ -1,12 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
-const { protect } = require('../middleware/auth'); // 1. Import the Bouncer
+const { protect } = require('../middleware/auth'); // Import your middleware
 
+// Public Routes
 router.post('/register', authController.register);
 router.post('/login', authController.login);
+router.post('/forgot-password', authController.forgotPassword);
+router.post('/reset-password', authController.resetPassword);
 
-// 2. NEW protected route. The request hits 'protect' first. If it passes, it goes to 'getMe'.
+// Protected Routes (Requires JWT Token)
 router.get('/me', protect, authController.getMe); 
 
 module.exports = router;

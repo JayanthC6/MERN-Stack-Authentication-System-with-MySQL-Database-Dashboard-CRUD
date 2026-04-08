@@ -1,86 +1,50 @@
-# 🚀 MERN Stack Secure Dashboard
+# 🚀 MERN Stack Secure Dashboard (MySQL Edition)
 
-A full-stack web application featuring secure user authentication, role-based access, and a protected dashboard with full CRUD (Create, Read, Update, Delete) capabilities. Built from scratch as a final year MCA project.
+A professional, production-ready full-stack application featuring a secure authentication system, role-based access control, and a data management dashboard with full CRUD operations. [cite_start]Built as a Final Year MCA project for the CampusPe Full Stack Assignment[cite: 1, 3, 8].
 
 ## ✨ Features
 
-* **Secure Authentication:** User registration and login with encrypted passwords and stateless sessions using JSON Web Tokens (JWT).
-* **Protected Routes:** Custom backend middleware to verify tokens and secure API endpoints.
-* **CRUD Operations:** Authenticated users can create, read, update, and delete their own dashboard items.
-* **Relational Database:** MySQL database with strict foreign key constraints linking items to specific users.
-* **Modern Frontend:** Lightning-fast React Single Page Application (SPA) built with Vite and React Router.
-* **Responsive UI:** Clean, modern interface styled utilizing the brand new Tailwind CSS v4.
+* [cite_start]**Advanced Authentication:** User registration, login with JWT, and "Remember Me" functionality[cite: 58, 60, 85].
+* [cite_start]**Secure Password Reset:** Integrated password recovery flow using `nodemailer` and temporary reset tokens[cite: 61, 86, 87].
+* [cite_start]**Global State Management:** React Context API and custom `useAuth` hook for centralized session handling[cite: 17, 105, 106].
+* [cite_start]**Route Protection:** implementation of `ProtectedRoute` and `PublicRoute` to guard sensitive data and auth pages[cite: 108, 109].
+* [cite_start]**Dashboard Statistics:** Real-time calculation of Total, Active, Pending, and Completed tasks[cite: 70, 92].
+* [cite_start]**Full CRUD Operations:** Create, Read, Update (with status dropdown), and Delete functionality with confirmation dialogs[cite: 63, 64, 94, 95, 96, 97].
+* [cite_start]**Security First:** SQL Injection prevention via parameterized queries, password hashing with `bcryptjs`, and Axios interceptors for token injection[cite: 23, 76, 101, 247].
 
-## 🛠️ Technology Stack & Dependencies
+## 🛠️ Tech Stack
 
-### **Frontend**
-* **Framework:** React.js (via Vite)
-* **Routing:** `react-router-dom` (v6)
-* **HTTP Client:** `axios`
-* **Styling:** `tailwindcss` (v4), `@tailwindcss/vite`
+### [cite_start]Frontend [cite: 12]
+* [cite_start]**Framework:** React.js (Vite) [cite: 13, 79]
+* [cite_start]**State:** React Context API [cite: 17, 105]
+* [cite_start]**Styling:** Tailwind CSS v4 [cite: 16, 81]
+* **Icons:** Lucide React
+* [cite_start]**HTTP Client:** Axios (with Interceptors) [cite: 15, 99]
 
-### **Backend**
-* **Runtime:** Node.js
-* **Framework:** `express`
-* **Database Driver:** `mysql2`
-* **Security:** `jsonwebtoken` (JWT), `bcrypt` (Password Hashing), `cors` (Cross-Origin Resource Sharing)
-* **Environment:** `dotenv`
-* **Development:** `nodemon`
-
----
-
-## 📦 Prerequisites
-
-Before running this project, ensure you have the following installed on your machine:
-* Node.js (v16 or higher)
-* MySQL Server & MySQL Workbench
+### [cite_start]Backend [cite: 18]
+* [cite_start]**Runtime:** Node.js & Express.js [cite: 19, 20]
+* [cite_start]**Database:** MySQL (Relational) [cite: 21, 22]
+* [cite_start]**Auth:** JSON Web Tokens (JWT) & bcryptjs [cite: 23, 24]
+* [cite_start]**Email:** Nodemailer [cite: 25]
 
 ---
 
-## 🚀 Installation & Setup Guide
+## 📦 Installation & Setup
 
-Follow these exact steps to set up the project on your local machine.
+### [cite_start]1. Database Setup [cite: 273]
+1.  [cite_start]Open MySQL Workbench[cite: 358].
+2.  [cite_start]Execute the provided `database.sql` script to create the `mern_auth_db` and required tables with proper indexes and foreign keys[cite: 36, 119, 207].
 
-### 1. Database Setup
-1. Open MySQL Workbench.
-2. Open and execute the provided `database.sql` file to automatically create the `mem_auth_db` database, the `users` table, and the `items` table.
+### [cite_start]2. Backend Configuration [cite: 282]
+1.  Navigate to the `/backend` folder.
+2.  Install dependencies:
+    ```bash
+    npm install express mysql2 bcryptjs jsonwebtoken dotenv cors nodemailer
+    
+http://googleusercontent.com/immersive_entry_chip/0
+http://googleusercontent.com/immersive_entry_chip/1
+http://googleusercontent.com/immersive_entry_chip/2
 
-### 2. Backend Setup
-Open a terminal, navigate to the backend folder, and install the dependencies:
-
-    cd backend
-    npm install express dotenv cors mysql2 jsonwebtoken bcrypt
-    npm install -D nodemon
-
-Create a `.env` file in the root of the `backend` folder and add your specific configurations:
-
-    PORT=5000
-    DB_HOST=localhost
-    DB_USER=root
-    DB_PASSWORD=your_mysql_password
-    DB_NAME=mem_auth_db
-    JWT_SECRET=your_super_secret_jwt_key
-
-Start the backend server:
-
-    npm run dev
-
-### 3. Frontend Setup
-Open a new terminal, navigate to the frontend folder, and install the dependencies:
-
-    cd frontend
-    npm install axios react-router-dom
-    npm install -D tailwindcss @tailwindcss/vite
-
-Start the React development server:
-
-    npm run dev
-
-Open your browser and navigate to the URL provided in the terminal (usually http://localhost:5173).
-
----
-
-## 👨‍💻 Author
 
 **Jayanth C** * Final Year MCA Student
 * [https://www.linkedin.com/in/jayanthc18/]

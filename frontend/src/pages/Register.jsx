@@ -1,105 +1,116 @@
 import { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '../api/axios'; // Using interceptor
 
 export default function Register() {
-  // 1. State to hold what the user types into the form
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    password: ''
+    password: '',
+    confirmPassword: '' // Added required field
   });
   
-  // State for showing error messages
   const [error, setError] = useState('');
-  
-  // Tool to redirect the user to the login page after success
+  const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // 2. Update state when user types
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 3. Handle the form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the page from refreshing
-    setError(''); // Clear old errors
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    // Form Validation Check
+    if (formData.password !== formData.confirmPassword) {
+      return setError('Passwords do not match');
+    }
+
+    setLoading(true);
 
     try {
-      // Send the data to your Node.js backend!
-      const response = await axios.post('http://localhost:5000/api/auth/register', formData);
+      // Remove confirmPassword before sending to backend
+      const { confirmPassword, ...dataToSend } = formData;
+      const response = await api.post('/auth/register', dataToSend);
       
       if (response.status === 201) {
-        alert('Registration successful! Please log in.');
-        navigate('/login'); // Redirect to login page
+        setSuccess('Account created successfully! Redirecting...');
+        setTimeout(() => navigate('/login'), 2000); // Wait 2 seconds then redirect
       }
     } catch (err) {
-      // If the backend sends an error (like "Email already exists"), show it
       setError(err.response?.data?.message || 'Something went wrong');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Create an Account</h2>
+    <div className="min-h-screen flex items-center justify-center bg-zinc-50 px-4 py-12">
+      <div className="max-w-md w-full bg-white rounded-xl shadow-sm border border-zinc-200 p-8">
+        <h2 className="text-2xl font-bold text-center text-zinc-900 mb-2">Create an Account</h2>
+        <p className="text-center text-sm text-zinc-500 mb-6">Enter your details to get started</p>
         
-        {/* Error Message Box */}
-        {error && <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm">{error}</div>}
+        {error && <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm mb-4">{error}</div>}
+        {success && <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-md text-sm mb-4">{success}</div>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Full Name</label>
+            <label className="block text-xs font-medium text-zinc-500 mb-1.5 uppercase tracking-wider">Full Name</label>
             <input 
-              type="text" 
-              name="name" 
-              required 
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              onChange={handleChange}
+              type="text" name="name" required onChange={handleChange}
+              className="w-full px-3 py-2 bg-transparent border border-zinc-300 rounded-md text-sm text-zinc-900 focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Email Address</label>
+            <label className="block text-xs font-medium text-zinc-500 mb-1.5 uppercase tracking-wider">Email Address</label>
             <input 
-              type="email" 
-              name="email" 
-              required 
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              onChange={handleChange}
+              type="email" name="email" required onChange={handleChange}
+              className="w-full px-3 py-2 bg-transparent border border-zinc-300 rounded-md text-sm text-zinc-900 focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+            <label className="block text-xs font-medium text-zinc-500 mb-1.5 uppercase tracking-wider">Phone Number</label>
             <input 
-              type="tel" 
-              name="phone" 
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              onChange={handleChange}
+              type="tel" name="phone" onChange={handleChange}
+              className="w-full px-3 py-2 bg-transparent border border-zinc-300 rounded-md text-sm text-zinc-900 focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
-            <input 
-              type="password" 
-              name="password" 
-              required 
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              onChange={handleChange}
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-medium text-zinc-500 mb-1.5 uppercase tracking-wider">Password</label>
+              <input 
+                type="password" name="password" required onChange={handleChange} minLength="6"
+                className="w-full px-3 py-2 bg-transparent border border-zinc-300 rounded-md text-sm text-zinc-900 focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-zinc-500 mb-1.5 uppercase tracking-wider">Confirm</label>
+              <input 
+                type="password" name="confirmPassword" required onChange={handleChange} minLength="6"
+                className="w-full px-3 py-2 bg-transparent border border-zinc-300 rounded-md text-sm text-zinc-900 focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+              />
+            </div>
           </div>
 
           <button 
             type="submit" 
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            disabled={loading}
+            className="w-full bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-medium py-2.5 rounded-md transition-colors disabled:opacity-70 mt-4"
           >
-            Register
+            {loading ? 'Creating Account...' : 'Register'}
           </button>
         </form>
+
+        <p className="mt-6 text-center text-sm text-zinc-600">
+          Already have an account? <Link to="/login" className="font-medium text-zinc-900 hover:underline">Sign in</Link>
+        </p>
       </div>
     </div>
   );
